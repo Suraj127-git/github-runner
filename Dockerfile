@@ -8,7 +8,7 @@ WORKDIR /actions-runner
 
 ARG RUNNER_VERSION=2.320.0
 
-RUN curl -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -o actions-runner.tar.gz && tar xzf actions-runner.tar.gz && rm actions-runner.tar.gz
+RUN curl -L --retry 5 --retry-delay 3 https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -o actions-runner.tar.gz && tar xzf actions-runner.tar.gz && rm actions-runner.tar.gz
 
 RUN ./bin/installdependencies.sh
 
