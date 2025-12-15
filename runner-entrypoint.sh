@@ -21,6 +21,13 @@ fi
 
 cd /actions-runner
 
+echo "Using GITHUB_RUNNER_URL=$GITHUB_RUNNER_URL"
+echo "Using GITHUB_RUNNER_NAME=$GITHUB_RUNNER_NAME"
+echo "Using GITHUB_RUNNER_WORKDIR=$GITHUB_RUNNER_WORKDIR"
+if [ -n "$GITHUB_RUNNER_LABELS" ]; then
+  echo "Using GITHUB_RUNNER_LABELS=$GITHUB_RUNNER_LABELS"
+fi
+
 if [ ! -f .runner ]; then
   if [ -n "$GITHUB_RUNNER_LABELS" ]; then
     ./config.sh --unattended --url "$GITHUB_RUNNER_URL" --token "$GITHUB_RUNNER_TOKEN" --name "$GITHUB_RUNNER_NAME" --work "$GITHUB_RUNNER_WORKDIR" --labels "$GITHUB_RUNNER_LABELS" --replace
@@ -37,4 +44,3 @@ trap 'cleanup; exit 0' INT TERM
 
 ./run.sh "$@" &
 wait $!
-
