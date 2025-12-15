@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y curl ca-certificates tar && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y curl ca-certificates tar docker.io && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /actions-runner
 
@@ -16,7 +16,7 @@ COPY runner-entrypoint.sh /runner-entrypoint.sh
 
 RUN chmod +x /runner-entrypoint.sh
 
-RUN useradd -m runner && chown -R runner:runner /actions-runner
+RUN useradd -m runner && chown -R runner:runner /actions-runner && usermod -aG docker runner
 
 USER runner
 
