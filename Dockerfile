@@ -16,5 +16,8 @@ COPY runner-entrypoint.sh /runner-entrypoint.sh
 
 RUN chmod +x /runner-entrypoint.sh
 
-ENTRYPOINT ["/runner-entrypoint.sh"]
+RUN useradd -m runner && chown -R runner:runner /actions-runner
 
+USER runner
+
+ENTRYPOINT ["/runner-entrypoint.sh"]
