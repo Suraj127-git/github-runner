@@ -19,19 +19,21 @@ if [ -z "$GITHUB_RUNNER_WORKDIR" ]; then
   GITHUB_RUNNER_WORKDIR=_work
 fi
 
-GITHUB_RUNNER_URL=${GITHUB_RUNNER_URL#\"}
-GITHUB_RUNNER_URL=${GITHUB_RUNNER_URL%\"}
-GITHUB_RUNNER_URL=${GITHUB_RUNNER_URL#\'}
-GITHUB_RUNNER_URL=${GITHUB_RUNNER_URL%\'}
-GITHUB_RUNNER_URL=${GITHUB_RUNNER_URL#\`}
-GITHUB_RUNNER_URL=${GITHUB_RUNNER_URL%\`}
+sanitize() {
+  value=$1
+  value=${value#\"}
+  value=${value%\"}
+  value=${value#\'}
+  value=${value%\'}
+  value=${value#\`}
+  value=${value%\`}
+  value=${value# }
+  value=${value% }
+  printf "%s" "$value"
+}
 
-GITHUB_RUNNER_TOKEN=${GITHUB_RUNNER_TOKEN#\"}
-GITHUB_RUNNER_TOKEN=${GITHUB_RUNNER_TOKEN%\"}
-GITHUB_RUNNER_TOKEN=${GITHUB_RUNNER_TOKEN#\'}
-GITHUB_RUNNER_TOKEN=${GITHUB_RUNNER_TOKEN%\'}
-GITHUB_RUNNER_TOKEN=${GITHUB_RUNNER_TOKEN#\`}
-GITHUB_RUNNER_TOKEN=${GITHUB_RUNNER_TOKEN%\`}
+GITHUB_RUNNER_URL=$(sanitize "$GITHUB_RUNNER_URL")
+GITHUB_RUNNER_TOKEN=$(sanitize "$GITHUB_RUNNER_TOKEN")
 
 cd /actions-runner
 
